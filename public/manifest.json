@@ -1,0 +1,29 @@
+{
+  "name": "Copycactus",
+  "description": "Extention for copying names from Linkedin",
+  "version": "0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Copycactus",
+    "default_icon": {
+      "30": "/assets/30.png"
+    }
+  },
+  "permissions": [
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://www.linkedin.com/sales/search/people/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [ {
+    "matches": [ "*://www.linkedin.com/*" ],
+    "match_origin_as_fallback": true,
+    "js": [ "contentScripts.js" ],
+    "css": [ "copycactus.css" ],
+    "run_at": "document_end"
+  } ]
+}
