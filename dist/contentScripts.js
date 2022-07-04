@@ -7,16 +7,8 @@ const TIMER_INTERVAL = 800;
 const googleSheetsCellSeperator = '	';
 const mainPagePath = '/sales/search/people';
 let currentUrl = location.href;
+let copyButtonLoaded = false;
 const copyButton = document.createElement('button');
-const buttonStyle = `
-  background-color: #ebfffc; 
-  width: 30px; 
-  height: 30px;
-  background-image: url('data:image/png;base64,${copycactusImg}');
-  border-radius:3px;
-  background-repeat: no-repeat;
-  background-position: center;
-  `;
 copyButton.setAttribute('class', 'copycactusButton');
 function copyToTheClipboard(textToCopy) {
     const el = document.createElement('textarea');
@@ -62,9 +54,10 @@ function injectCopyButton() {
         let lidList;
         try {
             lidList = Array.from(document.querySelectorAll("li.artdeco-list__item"));
-            if (typeof lidList !== 'undefined' && lidList[0].querySelector('div.artdeco-entity-lockup')) {
+            if (typeof lidList !== 'undefined' && lidList[0].querySelector('div.artdeco-entity-lockup') && !copyButtonLoaded) {
                 clearInterval(listLoadCheckTimer);
                 appendCopybutton(lidList);
+                copyButtonLoaded = true;
             }
         }
         catch (error) { }
@@ -75,6 +68,7 @@ executeWhenPageMatches(mainPagePath, () => (window.addEventListener("load", inje
 //checking if url has changed and injecting the button
 setInterval(() => {
     if (currentUrl !== location.href && location.href.includes('sessionId')) {
+        copyButtonLoaded = false;
         currentUrl = location.href;
         executeWhenPageMatches(mainPagePath, injectCopyButton);
     }

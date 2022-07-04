@@ -4,17 +4,10 @@ const googleSheetsCellSeperator = '	'
 const mainPagePath = '/sales/search/people'
 let currentUrl = location.href
 
+let copyButtonLoaded = false
+
 
 const copyButton = document.createElement('button')
-const buttonStyle = `
-  background-color: #ebfffc; 
-  width: 30px; 
-  height: 30px;
-  background-image: url('data:image/png;base64,${copycactusImg}');
-  border-radius:3px;
-  background-repeat: no-repeat;
-  background-position: center;
-  `
 
 copyButton.setAttribute('class', 'copycactusButton')
 
@@ -65,7 +58,6 @@ function appendCopybutton(elementList: HTMLElement[]): void {
 }
 
 function injectCopyButton() {
-
   //timer for list load checks
   let listLoadCheckTimer = setInterval(checkForListLoadFinish, TIMER_INTERVAL)
 
@@ -74,21 +66,23 @@ function injectCopyButton() {
     let lidList: any
     try {
       lidList = Array.from(document.querySelectorAll("li.artdeco-list__item"))
-      if (typeof lidList !== 'undefined' && lidList[0].querySelector('div.artdeco-entity-lockup')) {
+      if (typeof lidList !== 'undefined' && lidList[0].querySelector('div.artdeco-entity-lockup') && !copyButtonLoaded) {
         clearInterval(listLoadCheckTimer)
         appendCopybutton(lidList)
+        copyButtonLoaded = true
       }
     } catch (error) { }
   }
 }
-
 
 //inject button on correct page loag
 executeWhenPageMatches(mainPagePath, () => (window.addEventListener("load", injectCopyButton, false)))
 //checking if url has changed and injecting the button
 setInterval(() => {
   if (currentUrl !== location.href && location.href.includes('sessionId')) {
+    copyButtonLoaded = false
     currentUrl = location.href
     executeWhenPageMatches(mainPagePath, injectCopyButton)
   }
+
 }, 700)
