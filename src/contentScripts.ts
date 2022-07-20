@@ -31,7 +31,7 @@ function executeWhenPageMatches(path: string, fn: () => any) {
 
 function sendLidData(target: HTMLElement): void {
   const parentElement = target.parentElement as HTMLElement
-  const lidData = parentElement.querySelector('a[data-control-name="view_profile_via_result_name"]') as HTMLAnchorElement
+  const lidData = parentElement.querySelector('a[data-control-name="view_lead_panel_via_search_lead_name"]') as HTMLAnchorElement
 
   const lidFullname = lidData.innerText.replace(',', '').split(' ')
   const lidName = lidFullname.slice(0, 1)

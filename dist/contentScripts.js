@@ -28,7 +28,7 @@ function executeWhenPageMatches(path, fn) {
 }
 function sendLidData(target) {
     const parentElement = target.parentElement;
-    const lidData = parentElement.querySelector('a[data-control-name="view_profile_via_result_name"]');
+    const lidData = parentElement.querySelector('a[data-control-name="view_lead_panel_via_search_lead_name"]');
     const lidFullname = lidData.innerText.replace(',', '').split(' ');
     const lidName = lidFullname.slice(0, 1);
     const lidSurname = lidFullname.splice(1, lidFullname.length - 1);
